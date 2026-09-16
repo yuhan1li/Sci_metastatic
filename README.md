@@ -58,6 +58,28 @@ bash run_pipeline.sh genes
 bash run_pipeline.sh all 2>&1 | tee run_all.log
 ```
 
+### 构建 DCIS—原发—器官转移参考图谱
+
+```bash
+bash run_pipeline.sh atlas 2>&1 | tee atlas_training.log
+```
+
+此流程依次训练 scPoli 批次表征、General/Brain/Liver/Bone/Lymph-node contrastiveVI 显著隐空间、DCIS→Primary 与 Primary→Metastasis 阶段隐空间，然后构建六类监督参考图谱。输出图为：
+
+```text
+stage_organ_single_cell_map_with_DCIS.png
+```
+
+六类标签为 DCIS、Primary、Lymph_node、Brain、Liver 和 Bone。图中每个点是一个细胞；显示时对每个 GSM 最多抽样 250 个细胞，防止大样本主导 UMAP。
+
+### 将外部新数据映射到冻结参考图谱
+
+```bash
+bash run_pipeline.sh external
+```
+
+当前外部脚本以 GSE158399 为模板，包含新研究的 scPoli query surgery、contrastiveVI 投影、原型距离、KNN 纯度和 unknown/rejection 判定。
+
 ## 4. 主要脚本
 
 | 脚本 | 功能 |
@@ -69,6 +91,11 @@ bash run_pipeline.sh all 2>&1 | tee run_all.log
 | `validate_gene_stability_v4b.py` | 样本伪 bulk、跨研究效应、bootstrap 和置换检验 |
 | `refine_gene_candidates_v4b.py` | CNV 关联和谱系污染审计 |
 | `integrate_gene_evidence_v4b.py` | 整合 contrastiveVI、TCGA 和单细胞证据 |
+| `train_multiscale_reference.py` | 训练 scPoli 及五个 contrastiveVI 参考组件 |
+| `hierarchical_gene_screen.py` | 训练 DCIS/原发/转移阶段 contrastiveVI |
+| `train_stage_organ_map_with_dcis.py` | 构建并绘制六类恶性细胞参考图谱 |
+| `build_multiscale_prototypes.py` | 构建多状态器官原型及 LOSO 诊断 |
+| `external_validate_gse158399.py` | 冻结图谱的外部新数据映射模板 |
 
 ## 5. 当前复现指标
 
