@@ -18,6 +18,15 @@ case "$MODE" in
     python refine_gene_candidates_v4b.py
     python integrate_gene_evidence_v4b.py
     ;;
+  atlas)
+    python train_multiscale_reference.py
+    python hierarchical_gene_screen.py
+    python train_stage_organ_map_with_dcis.py
+    python build_multiscale_prototypes.py
+    ;;
+  external)
+    python external_validate_gse158399.py
+    ;;
   all)
     python train_full_balanced_split_v4b.py
     python evaluate_heldout_samples_v4b.py
@@ -25,9 +34,13 @@ case "$MODE" in
     python validate_gene_stability_v4b.py
     python refine_gene_candidates_v4b.py
     python integrate_gene_evidence_v4b.py
+    python train_multiscale_reference.py
+    python hierarchical_gene_screen.py
+    python train_stage_organ_map_with_dcis.py
+    python build_multiscale_prototypes.py
     ;;
   *)
-    echo "Usage: bash run_pipeline.sh {train|evaluate|genes|all}" >&2; exit 2
+    echo "Usage: bash run_pipeline.sh {train|evaluate|genes|atlas|external|all}" >&2; exit 2
     ;;
 esac
 
