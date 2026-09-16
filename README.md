@@ -25,6 +25,19 @@ cp config.env.example config.env
 
 ## 3. 运行方式
 
+### Jupyter Notebook 逐步教程
+
+推荐首次使用时打开：
+
+[`notebooks/BRCA_metastasis_atlas_step_by_step.ipynb`](notebooks/BRCA_metastasis_atlas_step_by_step.ipynb)
+
+```bash
+conda activate brca-metastasis-atlas
+jupyter lab notebooks/BRCA_metastasis_atlas_step_by_step.ipynb
+```
+
+Notebook 将环境和路径检查、多尺度隐空间、DCIS 参考图谱、整样本留出预测、基因审计及外部映射分为独立单元格。耗时训练单元默认关闭，需在第一个代码单元中将对应 `RUN_*` 开关改为 `True`。
+
 ### 只复现已训练模型的留出预测图
 
 ```bash
